@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style>
+        #app .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="msg">
+        <div class="error" v-if="error.require">this is required</div>
+        <div class="error" v-if="error.tooShort">this is too Short</div>
+        <div class="error" v-if="error.tooLong">this is too Long</div>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            // watchのオブジェクトはリアルタイム監視系
+            watch: {
+                msg: function (newVal, oldVal) {
+                    this.error.require = (newVal.length < 1);
+                    this.error.tooShort = (newVal.length < 3);
+                    this.error.tooLong = (newVal.length > 5);
+                },
+            },
+            data: {
+                msg: 'hoge!',
+                error: {
+                    require: false,
+                    tooShort: false,
+                    tooLong: false
+                }
+            }
+        });
+        window.app = app;
+    </script>
+</body>
+
+</html>
