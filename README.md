@@ -1,0 +1,1 @@
+# nuxt-practice-for-next
