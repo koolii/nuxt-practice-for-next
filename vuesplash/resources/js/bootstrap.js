@@ -1,18 +1,6 @@
-
-window._ = require('lodash');
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
-
-    require('bootstrap');
-} catch (e) {}
+import {
+  getCookieValue
+} from './util'
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -22,7 +10,19 @@ try {
 
 window.axios = require('axios');
 
+// Ajsxリクエストであることを示すヘッダーを付与する
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+// TODO 一応参考の通りに下記の処理を追加しているが、
+// このファイルの周りを見ると自動的にCSRFトークンが添付されているようないないような
+// この辺りは調べたほうが良さそう。バージョンアップで対応不要になった可能性もある
+// クッキーからトークンを取り出してヘッダーに添付
+// これによりLaravelはフォームではなくヘッダを見てCSRFチェックを行う
+window.axios.interceptors.request.use(config => {
+  config.headers['X-XSRF-TOKEN'] = getCookieValue('XSRF-TOKEN');
+  return config;
+});
+
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -30,13 +30,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * a simple convenience so we don't have to attach every token manually.
  */
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
+// ここはエラーが出るので今はコメントアウトにて対応
+// let token = document.head.querySelector('meta[name="csrf-token"]');
 
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+// if (token) {
+//   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+// } else {
+//   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+// }
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
