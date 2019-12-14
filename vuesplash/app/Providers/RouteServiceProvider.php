@@ -65,8 +65,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
+        // API と画面のルート定義は別々のファイルに記述する
+        // APIのルート定義はroutes/api.phpに記述することにする
+        // api => webに変更
         Route::prefix('api')
-             ->middleware('api')
+            //  ->middleware('api')
+             ->middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
