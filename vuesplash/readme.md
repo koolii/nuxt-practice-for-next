@@ -22,3 +22,8 @@ Docker コンテナ上で BrowserSync を使いたいなら
 じゃないと API のメソッドに渡ってくる値に違いが出て、response_status_code がおかしくなる。だいたい 500 になる。
 
 [PHP] 単体テストはメソッド名の先頭に `test` を必ずつけること
+
+[VueRouter] RouterLink は RouterView と一緒で VueRouter のコンポーネント
+レンダリングは a タグのアンカーリンクだが、普通のアンカーリンクと違うのは通常の画面遷移はせずに VueRouter によるコンポーネントの切り替わりが発生するだけ
+
+必ず RouterLink を使って画面遷移すること
