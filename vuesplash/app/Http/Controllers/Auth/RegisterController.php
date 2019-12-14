@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -68,5 +69,14 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        // /vendor/laravel/framework/src/Illuminate/Foundation/Auth/RegistersUsers.php
+        // の中身を参照するとわかるが、register()の最後でregistered()が呼ばれる。
+        // registered()が定義されていない場合はredirect()が呼ばれる
+        // なので、レスポンスを改修したい場合はregistered()を作成すると良い
+        return $user;
     }
 }
