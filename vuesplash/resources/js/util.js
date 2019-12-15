@@ -16,5 +16,5 @@ export function getCookieValue(target) {
     return '';
   }
 
-  return array[0];
+  return array[0].split('=')[1];
 }

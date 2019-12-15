@@ -99,8 +99,14 @@ export default {
     login() {
       alert(JSON.stringify(this.loginForm));
     },
-    register() {
+    async register() {
       alert(JSON.stringify(this.registerForm));
+      // Vuexをuse()しているのでthis.$storeでStoreを参照することが出来る
+      // dispatch()で登録したアクションを呼び出せる
+      // "auth/" がプレフィックスになっているが、これはauth.jsの "namspaced:true" にしているから
+      await this.$store.dispatch("auth/register", this.registerForm);
+      // /に移動する
+      this.$router.push("/");
     }
   }
 };
