@@ -27,3 +27,26 @@ Docker コンテナ上で BrowserSync を使いたいなら
 レンダリングは a タグのアンカーリンクだが、普通のアンカーリンクと違うのは通常の画面遷移はせずに VueRouter によるコンポーネントの切り替わりが発生するだけ
 
 必ず RouterLink を使って画面遷移すること
+
+[psql] migrate
+root@d2f92141d898:/var/www# php artisan migrate
+Migration table created successfully.
+Migrating: 2014_10_12_000000_create_users_table
+Migrated: 2014_10_12_000000_create_users_table
+Migrating: 2014_10_12_100000_create_password_resets_table
+Migrated: 2014_10_12_100000_create_password_resets_table
+
+[psql] Postgresql にログインして、DB 選択
+
+```sql
+> docker-compose exec workspace psql -U default -h postgres
+Password for user default:
+
+        ^
+default=# \c vuesplash;
+default=# \q
+```
+
+[PHP] 作り途中だったから理解をするまでにかなり時間がかかったが、laravel_session にはログインしたユーザの情報が cookie として登録されている。これがあると、再度ユーザ登録しようとしてもエラーとなりリダイレクトするようになる、なのでログアウト時にはこの値を削除するような処理を加えなければならない(これ本当に数時間かかった)
+
+[PHP/Vuejs] なぜかわからないが、ちゃんと実装していてもステータス 422 や 419 が帰ってくるときがある。419 は XSRF の設定がおかしいから Cookie を確認して、リロードしまくれば OK。422 は本当にわからない、curl ではレスポンスが返るが、画面からはエラーになったり、これもリロードしまくって治った.ソースコードは何も悪くなかった

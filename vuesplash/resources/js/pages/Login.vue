@@ -96,11 +96,11 @@ export default {
     };
   },
   methods: {
-    login() {
-      alert(JSON.stringify(this.loginForm));
+    async login() {
+      await this.$store.dispatch("auth/login", this.loginForm);
+      this.$router.push("/");
     },
     async register() {
-      alert(JSON.stringify(this.registerForm));
       // Vuexをuse()しているのでthis.$storeでStoreを参照することが出来る
       // dispatch()で登録したアクションを呼び出せる
       // "auth/" がプレフィックスになっているが、これはauth.jsの "namspaced:true" にしているから

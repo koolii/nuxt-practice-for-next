@@ -16,12 +16,27 @@ const mutations = {
 // contextは必ず第一引数になり、ここからミューテーションを呼び出すことが出来る
 const actions = {
   async register(context, data) {
-    const response = await axios.post('/api/register', data);
-    // console.log(JSON.stringify(response));
-    context.commit('setUser', response.data);
+    try {
+      const response = await axios.post('/api/register', data);
+      context.commit('setUser', response.data);
+    } catch (e) {
+      console.error(JSON.stringify(e));
+      throw new Error(e);
+    }
   },
-  login() {},
-  logout() {}
+  async login(context, data) {
+    try {
+      const response = await axios.post('/api/login', data)
+      context.commit('setUser', response.data)
+    } catch (e) {
+      console.log(JSON.stringify(e));
+      throw new Error(e);
+    }
+  },
+  async logout(context) {
+    const response = await axios.post('/api/logout');
+    context.commit('setUser', null);
+  }
 }
 
 export default {
