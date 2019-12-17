@@ -2,6 +2,7 @@
 /myproject/node_modules
 /vuesplash/node_modules
 /vuesplash/public
+/vuesplash/docker/db/data
 /public/hot
 /public/storage
 /storage/*.key
