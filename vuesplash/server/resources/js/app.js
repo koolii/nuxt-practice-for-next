@@ -12,12 +12,22 @@ import "@mdi/font/css/materialdesignicons.css";
 
 Vue.use(Vuetify);
 
-new Vue({
-  el: "#app",
-  router,
-  store,
-  components: {
-    App
-  },
-  template: "<App />"
-});
+const createApp = async () => {
+  // * 起動時にログインチェック
+  // ブラウザをリロードしたりするとstateの情報が全て空になってしまう
+  // なので、APIサーバではログイン中のセッションを持つが、ブラウザはログアウト状態になってしまう
+  // 自分自身が現在ログイン中なのかどうかチェックする
+  await store.dispatch('auth/currentUser');
+
+  new Vue({
+    el: "#app",
+    router,
+    store,
+    components: {
+      App
+    },
+    template: "<App />"
+  });
+};
+
+createApp();
