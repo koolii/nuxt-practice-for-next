@@ -65,3 +65,5 @@ default=# \q
 今回は SPA なので HTML を返したくないから `/api/user` に変える
 
 [Vuejs] アプリ起動時になにか処理をしたいなら `new Vue()` の前に処理を記載する。非同期が必要なら async 関数を作成して呼び出せば良い(app.js)
+
+[Vuejs]\(非)ログイン状態の時に特定のフロントの URL にアクセス制御したい場合はナビゲーションガードを行うと良い。(`router.jsのbeforeEnter`)

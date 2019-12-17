@@ -4,6 +4,8 @@ import VueRouter from 'vue-router';
 import PhotoList from './pages/PhotoList.vue'
 import Login from './pages/Login.vue'
 
+import store from './store';
+
 Vue.use(VueRouter);
 
 const routes = [{
@@ -12,7 +14,18 @@ const routes = [{
   },
   {
     path: '/login',
-    component: Login
+    component: Login,
+    // 次のページを制御できる
+    // ページコンポーネントが切り替わる直前に呼び出される関数
+    // next()ならそのまま順当に次ページへ行く
+    beforeEnter(to, from, next) {
+      // storeにuser変数があるか
+      if (store.getters['auth/check']) {
+        next('/');
+      } else {
+        next();
+      }
+    }
   }
 ]
 
