@@ -18,3 +18,10 @@ export function getCookieValue(target) {
 
   return array[0].split('=')[1];
 }
+
+
+export const CODE = {
+  OK: 200,
+  CREATED: 201,
+  INTERNAL_SERVER_ERROR: 500,
+};
