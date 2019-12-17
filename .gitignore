@@ -1,7 +1,8 @@
 /node_modules
 /myproject/node_modules
 /vuesplash/node_modules
-/vuesplash/public
+/vuesplash/server/public/js/app.js
+/vuesplash/server/public/mix-manifest.json
 /vuesplash/docker/db/data
 /public/hot
 /public/storage
