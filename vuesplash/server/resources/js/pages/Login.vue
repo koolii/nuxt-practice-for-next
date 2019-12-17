@@ -3,38 +3,16 @@
     <ul class="tab">
       <!-- :classの値を修正すると、クラスの付与等ができるようになる -->
       <!-- ここは tab === 1なら tab__item--activeクラスが付与される -->
-      <li
-        class="tab__item"
-        :class="{ 'tab__item--active': tab === 1 }"
-        @click="tab = 1"
-      >
-        Login
-      </li>
-      <li
-        class="tab__item"
-        :class="{ 'tab__item--active': tab === 2 }"
-        @click="tab = 2"
-      >
-        Register
-      </li>
+      <li class="tab__item" :class="{ 'tab__item--active': tab === 1 }" @click="tab = 1">Login</li>
+      <li class="tab__item" :class="{ 'tab__item--active': tab === 2 }" @click="tab = 2">Register</li>
     </ul>
     <div class="panel" v-show="tab === 1">
       <!-- event.prevent()を呼び出しつつsubmitハンドラをlogin()として紐付け -->
       <form class="form" @submit.prevent="login">
         <label for="login-email">Email</label>
-        <input
-          type="text"
-          class="form__item"
-          id="login-email"
-          v-model="loginForm.email"
-        />
+        <input type="text" class="form__item" id="login-email" v-model="loginForm.email" />
         <label for="login-password">Password</label>
-        <input
-          type="password"
-          class="form__item"
-          id="login-password"
-          v-model="loginForm.password"
-        />
+        <input type="password" class="form__item" id="login-password" v-model="loginForm.password" />
         <div class="form__button">
           <button type="submit" class="button button--inverse">login</button>
         </div>
@@ -43,26 +21,11 @@
     <div class="panel" v-show="tab === 2">
       <form class="form" @submit.prevent="register">
         <label for="username">Name</label>
-        <input
-          type="text"
-          class="form__item"
-          id="username"
-          v-model="registerForm.name"
-        />
+        <input type="text" class="form__item" id="username" v-model="registerForm.name" />
         <label for="email">Email</label>
-        <input
-          type="text"
-          class="form__item"
-          id="email"
-          v-model="registerForm.email"
-        />
+        <input type="text" class="form__item" id="email" v-model="registerForm.email" />
         <label for="password">Password</label>
-        <input
-          type="password"
-          class="form__item"
-          id="password"
-          v-model="registerForm.password"
-        />
+        <input type="password" class="form__item" id="password" v-model="registerForm.password" />
         <label for="password-confirmation">Password (confirm)</label>
         <input
           type="password"
@@ -95,10 +58,20 @@ export default {
       }
     };
   },
+  computed: {
+    apiStatus() {
+      // ログインが成功したかどうかを取得
+      return this.$store.state.auth.apiStatus;
+    }
+  },
   methods: {
     async login() {
       await this.$store.dispatch("auth/login", this.loginForm);
-      this.$router.push("/");
+
+      // ログイン成功したときだけ、トップページに遷移する
+      if (this.apiStatus) {
+        this.$router.push("/");
+      }
     },
     async register() {
       // Vuexをuse()しているのでthis.$storeでStoreを参照することが出来る

@@ -67,3 +67,23 @@ default=# \q
 [Vuejs] アプリ起動時になにか処理をしたいなら `new Vue()` の前に処理を記載する。非同期が必要なら async 関数を作成して呼び出せば良い(app.js)
 
 [Vuejs]\(非)ログイン状態の時に特定のフロントの URL にアクセス制御したい場合はナビゲーションガードを行うと良い。(`router.jsのbeforeEnter`)
+
+[Vuejs] あるストアモジュールから別のモジュールのミューテーションを commit する場合は第三引数に { root: true } を追加します。
+
+```js
+context.commit("error/setCode", response.status, { root: true });
+```
+
+[Vuejs] 全体のエラー(errorCode)を App.vue で管理・監視して、システムエラー画面へ遷移するようにした。
+理解が難しい箇所なので、下記の画像を見ながら確認。
+
+```
+Login.vue
+=> auth.js
+=> (throw new Error())
+=> error.js
+=> App.vue(errorCode を監視)
+=> SystemError.vue(エラー画面)
+```
+
+![img1](./doc/fig-system-error.jpg)
