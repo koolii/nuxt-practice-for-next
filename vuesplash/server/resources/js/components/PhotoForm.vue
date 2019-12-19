@@ -3,7 +3,10 @@
   <!-- v-showで管理 -->
   <div v-show="value" class="photo-form">
     <h2 class="title">Subimit a photo</h2>
-    <form class="form" @submit.prevent="submit">
+    <div v-show="loading" class="panel">
+      <Loader>Sending your photo...</Loader>
+    </div>
+    <form v-show="! loading" class="form" @submit.prevent="submit">
       <div class="errors" v-if="errors">
         <ul v-if="errors.photo">
           <li v-for="msg in errors.photo" :key="msg">{{ msg }}</li>
@@ -22,8 +25,12 @@
 
 <script>
 import { CODE } from "../util";
+import Loader from "./Loader.vue";
 
 export default {
+  components: {
+    Loader
+  },
   // valueを受け取れるようにpropsを追加
   props: {
     value: {
@@ -33,6 +40,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       preview: null,
       photo: null,
       errors: null
@@ -76,13 +84,27 @@ export default {
       // this.$elはコンポーネントそのもののDOM
       this.$el.querySelector('input[type="file"]').value = null;
     },
-    submit() {
+    async submit() {
+      this.loading = true;
+
       // Ajaxでファイル送信にHTML5のFormDataAPIを利用
       const formData = new FormData();
       formData.append("photo", this.photo);
 
       // 今回はファイルアップロード自体は必要ない(API用意してない)ので
       // const response = await axios.post("/api/photos", formData);
+
+      const wait = sec => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve();
+          }, sec * 1000);
+        });
+      };
+
+      await wait(2);
+
+      this.loading = false;
 
       this.reset();
       // inputイベントを発生させてフォームを閉じる。

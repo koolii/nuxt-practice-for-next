@@ -5,7 +5,5 @@
 <script>
 import { PHOTO } from "../util";
 
-export default {
-  props: {}
-};
+export default {};
 </script>
