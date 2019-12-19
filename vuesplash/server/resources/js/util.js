@@ -19,6 +19,17 @@ export function getCookieValue(target) {
   return array[0].split('=')[1];
 }
 
+export const PHOTO = [{
+  id: 1,
+  url: 'https://pbs.twimg.com/media/D-rnILoU4AAzt2I.jpg',
+}, {
+  id: 2,
+  url: 'https://img21.shop-pro.jp/PA01392/072/product/142396934.jpg?cmsp_timestamp=20190602000357',
+}, {
+  id: 3,
+  url: 'https://times.abema.tv/files/topics/7030217_ext_col_03_2.jpg'
+}];
+
 
 export const CODE = {
   OK: 200,

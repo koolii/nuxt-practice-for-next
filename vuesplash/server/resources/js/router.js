@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import PhotoList from './pages/PhotoList.vue'
 import Login from './pages/Login.vue'
 import SystemError from './pages/errors/System'
+import PhotoDetail from './pages/PhotoDetail.vue'
 
 import store from './store';
 
@@ -31,6 +32,12 @@ const routes = [{
         next();
       }
     }
+  },
+  {
+    // :idが変数部分と言うことで、props:trueを追加
+    path: '/photos/:id',
+    component: PhotoDetail,
+    props: true
   }
 ]
 

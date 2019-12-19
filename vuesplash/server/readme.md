@@ -110,3 +110,11 @@ export default {
     })
 }
 ```
+
+[Vuejs] モーダルボックスの表示には `v-model` を渡して、 `v-show` 判定を行っている (Navbar.vue, PhotoForm.vue)
+
+[Vuejs]ファイルプレビューは HTML5 の FileReaderAPI を用いる
+
+[Vuejs]ファイルアップロードは PhotoForm.vue がとても参考になる。
+が、ここでは、イメージファイルのアップロードなので CSV とかはまた改良が必要。
+参考: https://qiita.com/WallyNegima/items/67a16915fbd77e2e0f03
