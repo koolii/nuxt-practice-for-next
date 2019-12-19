@@ -119,6 +119,11 @@ export default {
         return false;
       }
 
+      this.$store.commit("message/setContent", {
+        content: "succeed to upload a image file",
+        timeout: 6000
+      });
+
       // 固定でページ遷移するようにした
       this.$router.push("/photos/1");
     }
