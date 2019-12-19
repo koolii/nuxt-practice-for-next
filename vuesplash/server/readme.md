@@ -118,3 +118,26 @@ export default {
 [Vuejs]ファイルアップロードは PhotoForm.vue がとても参考になる。
 が、ここでは、イメージファイルのアップロードなので CSV とかはまた改良が必要。
 参考: https://qiita.com/WallyNegima/items/67a16915fbd77e2e0f03
+
+[Vuejs] watch.\$route は該当するページへ遷移してきた時に処理を加えることが出来る
+Paging するコンポーネントを想定していて、同じコンポーネントが何度も呼ばれることになる。Vue はコンポーネントを流用する仕様なので、create()ライフサイクル時に呼ぶと移行でハンドラがフックされないので要注意
+
+ただハンドラがあるだけだと、コンポーネントをレンダリング時には呼び出されないので、初回のときにも呼び出されるように immediate: true を設定
+
+```js
+export default {
+    watch: {
+        // ページがココに切り替わった時に、fetchPhotos()が実行される
+        // immediate:trueなのでコンポーネントが生成されたタイミングでも実行される
+        // created()で呼ぶとVueのコンポーネントを使い回す性質から次ページからfetchPhotos()が呼ばれない
+        $route: {
+            // これだけだと初めて <PhotoList> をレンダリングする時に実行されない
+            async handler() {
+                await this.fetchPhotos();
+            },
+            // 初回レンダリング用に immedaite: true を設定する
+            immediate: true
+        }
+    }
+};
+```
