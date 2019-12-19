@@ -87,3 +87,26 @@ Login.vue
 ```
 
 ![img1](./doc/fig-system-error.jpg)
+
+[Vuex] vuex の mapState を使うと更に書きやすくなる
+
+コンポーネントの算出プロパティとストアのステートをマッピングする関数で、
+自分の書きやすいように書けば良い(`Login.vue`)
+
+```js
+import { mapState } from "vuex";
+
+export default {
+  computed: {
+    // apiStatus() {
+    //   return this.$store.state.auth.apiStatus;
+    // },
+    // loginErrors() {
+    //   return this.$store.state.auth.loginErrorMessages;
+    // }
+    ...mapState({
+      apiStatus: state => state.auth.apiStatus,
+      loginErrors: state => state.auth.loginErrorMessages
+    })
+}
+```

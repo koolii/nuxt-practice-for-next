@@ -23,6 +23,16 @@ window.axios.interceptors.request.use(config => {
   return config;
 });
 
+// * このresponseインターセプターはレスポンスを受けた後の処理を上書きする
+// 第一引数: 成功時の処理
+// 第二引数: 失敗時の処理
+// 第二引数を以下のように変えたことで各api呼び出し時にcatchステートメントで
+// 同じことを書かなくなって良い
+window.axios.interceptors.response.use(
+  response => response,
+  error => error.response || error
+)
+
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that

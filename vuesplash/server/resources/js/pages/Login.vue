@@ -9,6 +9,14 @@
     <div class="panel" v-show="tab === 1">
       <!-- event.prevent()を呼び出しつつsubmitハンドラをlogin()として紐付け -->
       <form class="form" @submit.prevent="login">
+        <div v-if="loginErrors" class="errors">
+          <ul v-if="loginErrors.email">
+            <li v-for="msg in loginErrors.email" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="loginErrors.password">
+            <li v-for="msg in loginErrors.password" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
         <label for="login-email">Email</label>
         <input type="text" class="form__item" id="login-email" v-model="loginForm.email" />
         <label for="login-password">Password</label>
@@ -42,6 +50,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -59,12 +69,26 @@ export default {
     };
   },
   computed: {
-    apiStatus() {
-      // ログインが成功したかどうかを取得
-      return this.$store.state.auth.apiStatus;
-    }
+    // apiStatus() {
+    //   // ログインが成功したかどうかを取得
+    //   return this.$store.state.auth.apiStatus;
+    // },
+    // loginErrors() {
+    //   return this.$store.state.auth.loginErrorMessages;
+    // }
+    // vuexのmapStateを使うと更に書きやすくなる
+    // コンポーネントの算出プロパティとストアのステートをマッピングする関数
+    // 中身は同じだから好きな使い方で
+    ...mapState({
+      apiStatus: state => state.auth.apiStatus,
+      loginErrors: state => state.auth.loginErrorMessages
+    })
   },
   methods: {
+    // ログインエラーを消すリクエスト
+    clearError() {
+      this.$store.commit("auth/setLoginErrorMessages", null);
+    },
     async login() {
       await this.$store.dispatch("auth/login", this.loginForm);
 
@@ -81,6 +105,11 @@ export default {
       // /に移動する
       this.$router.push("/");
     }
+  },
+  created() {
+    // 今のままだと一度別ページへ移動し、元に戻るとまだエラーが表示されたまま
+    // なので、 `created` ライフサイクルフックでエラーを消す
+    this.clearError();
   }
 };
 </script>

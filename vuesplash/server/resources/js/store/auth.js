@@ -1,11 +1,11 @@
-// 認証関係のデータが入るストア
 import {
   CODE
 } from '../util'
 
 const state = {
   user: null,
-  apiStatus: null
+  apiStatus: null,
+  loginErrorMessages: null,
 }
 
 const getters = {
@@ -19,49 +19,45 @@ const mutations = {
   },
   setApiStatus(state, code) {
     state.apiStatus = code;
-  }
+  },
+  setLoginErrorMessages(state, messages) {
+    state.loginErrorMessages = messages;
+  },
 }
 
 // アクション->ミューテーション->コミットでステートを更新
 // contextは必ず第一引数になり、ここからミューテーションを呼び出すことが出来る
 const actions = {
   async register(context, data) {
-    try {
-      const response = await axios.post('/api/register', data);
-      context.commit('setUser', response.data);
-    } catch (e) {
-      console.error(JSON.stringify(e));
-      throw new Error(e);
-    }
+    const response = await axios.post('/api/register', data);
+    context.commit('setUser', response.data);
   },
   async login(context, data) {
     context.commit('setApiStatus', null);
 
-    try {
-      // /500ページに遷移を検証できる
-      // throw new Error('api test');
+    // /500ページに遷移を検証できる
+    // throw new Error('api test');
 
-      // 成功失敗に関わらず全てにおいてresponseに値を代入
-      const response = await axios
-        .post('/api/login', data)
-        .catch(error => error.response || error);
+    // 成功失敗に関わらず全てにおいてresponseに値を代入
+    const response = await axios
+      .post('/api/login', data)
 
-      if (response.status === CODE.OK) {
-        context.commit('setApiStatus', true);
-        context.commit('setUser', response.data)
-        return false;
-      }
+    if (response.status === CODE.OK) {
+      context.commit('setApiStatus', true);
+      context.commit('setUser', response.data)
+      return false;
+    }
 
-      context.commit('setApiStatus', false);
+    context.commit('setApiStatus', false);
+
+    if (response.status === CODE.UNPROCESSABLE_ENTITY) {
+      // ログイン画面にエラーメッセージを表示するので画面遷移はしない
+      context.commit('setLoginErrorMessages', response.data.errors);
+    } else {
       // 通信失敗した場合はerrorストアのsetCode()ミューテーションをcommitする
       // だが、ここはauthストアなので、別のストアのミューテーションを呼び出す時は
       // 第三引数に `{ root: true }` を追加する必要がある
       context.commit('error/setCode', response.status, {
-        root: true
-      });
-    } catch (e) {
-      context.commit('setApiStatus', false);
-      context.commit('error/setCode', CODE.INTERNAL_SERVER_ERROR, {
         root: true
       });
     }
