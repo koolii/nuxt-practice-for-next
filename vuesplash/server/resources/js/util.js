@@ -22,12 +22,21 @@ export function getCookieValue(target) {
 export const PHOTO = [{
   id: 1,
   url: 'https://pbs.twimg.com/media/D-rnILoU4AAzt2I.jpg',
+  owner: {
+    name: "t.kuriyama"
+  }
 }, {
   id: 2,
   url: 'https://img21.shop-pro.jp/PA01392/072/product/142396934.jpg?cmsp_timestamp=20190602000357',
+  owner: {
+    name: "t.kuriyama2"
+  }
 }, {
   id: 3,
-  url: 'https://times.abema.tv/files/topics/7030217_ext_col_03_2.jpg'
+  url: 'https://times.abema.tv/files/topics/7030217_ext_col_03_2.jpg',
+  owner: {
+    name: "t.kuriyama3"
+  }
 }];
 
 
