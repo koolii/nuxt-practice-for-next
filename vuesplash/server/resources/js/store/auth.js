@@ -6,6 +6,7 @@ const state = {
   user: null,
   apiStatus: null,
   loginErrorMessages: null,
+  registerErrorMessages: null,
 }
 
 const getters = {
@@ -23,14 +24,32 @@ const mutations = {
   setLoginErrorMessages(state, messages) {
     state.loginErrorMessages = messages;
   },
+  setRegisterErrorMessages(state, messages) {
+    state.registerErrorMessages = messages;
+  }
 }
 
 // アクション->ミューテーション->コミットでステートを更新
 // contextは必ず第一引数になり、ここからミューテーションを呼び出すことが出来る
 const actions = {
   async register(context, data) {
+    context.commit('setApiStatus', null);
     const response = await axios.post('/api/register', data);
-    context.commit('setUser', response.data);
+
+    if (response.status === CODE.CREATED) {
+      context.commit('setApiStatus', true);
+      context.commit('setUser', response.data);
+      return false;
+    }
+
+    context.commit('setApiStatus', false);
+    if (response.status === CODE.UNPROCESSABLE_ENTITY) {
+      context.commit('setRegisterErrorMessages', response.data.errors);
+    } else {
+      context.commit('error/setCode', response.status, {
+        root: true
+      });
+    }
   },
   async login(context, data) {
     context.commit('setApiStatus', null);
@@ -39,8 +58,7 @@ const actions = {
     // throw new Error('api test');
 
     // 成功失敗に関わらず全てにおいてresponseに値を代入
-    const response = await axios
-      .post('/api/login', data)
+    const response = await axios.post('/api/login', data);
 
     if (response.status === CODE.OK) {
       context.commit('setApiStatus', true);
@@ -67,9 +85,20 @@ const actions = {
     context.commit('setUser', null);
   },
   async currentUser(context) {
+    context.commit('setApiStatus', null);
     const response = await axios.get('/api/user');
     const user = response.data || null;
-    context.commit('setUser', user);
+
+    if (response.status === CODE.OK) {
+      context.commit('setApiStatus', true);
+      context.commit('setUser', user);
+      return false;
+    }
+
+    context.commit('setUser', false);
+    context.commit('error/setCode', response.status, {
+      root: true
+    });
   }
 }
 

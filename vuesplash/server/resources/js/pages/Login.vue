@@ -28,6 +28,14 @@
     </div>
     <div class="panel" v-show="tab === 2">
       <form class="form" @submit.prevent="register">
+        <div v-if="registerErrors" class="errors">
+          <ul v-if="registerErrors.email">
+            <li v-for="msg in registerErrors.email" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="registerErrors.password">
+            <li v-for="msg in registerErrors.password" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
         <label for="username">Name</label>
         <input type="text" class="form__item" id="username" v-model="registerForm.name" />
         <label for="email">Email</label>
@@ -81,13 +89,15 @@ export default {
     // 中身は同じだから好きな使い方で
     ...mapState({
       apiStatus: state => state.auth.apiStatus,
-      loginErrors: state => state.auth.loginErrorMessages
+      loginErrors: state => state.auth.loginErrorMessages,
+      registerErrors: state => state.auth.registerErrorMessages
     })
   },
   methods: {
     // ログインエラーを消すリクエスト
     clearError() {
       this.$store.commit("auth/setLoginErrorMessages", null);
+      this.$store.commit("auth/setRegisterErrorMessages", null);
     },
     async login() {
       await this.$store.dispatch("auth/login", this.loginForm);
@@ -102,8 +112,11 @@ export default {
       // dispatch()で登録したアクションを呼び出せる
       // "auth/" がプレフィックスになっているが、これはauth.jsの "namspaced:true" にしているから
       await this.$store.dispatch("auth/register", this.registerForm);
-      // /に移動する
-      this.$router.push("/");
+
+      if (this.apiStatus) {
+        // /に移動する
+        this.$router.push("/");
+      }
     }
   },
   created() {
