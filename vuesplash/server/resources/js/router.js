@@ -5,12 +5,16 @@ import PhotoList from './pages/PhotoList.vue'
 import Login from './pages/Login.vue'
 import SystemError from './pages/errors/System'
 import PhotoDetail from './pages/PhotoDetail.vue'
+import NotFound from './pages/errors/NotFound.vue'
 
 import store from './store';
 
 Vue.use(VueRouter);
 
 const routes = [{
+    path: '*',
+    component: NotFound,
+  }, {
     path: '/',
     component: PhotoList,
     // propsとしてクエリパラメータのpageが渡される
