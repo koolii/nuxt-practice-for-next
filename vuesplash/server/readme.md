@@ -141,3 +141,17 @@ export default {
     }
 };
 ```
+
+[Vuejs] クエリパラメータを使った処理は router.js でパラメータを取得し、それを return すると該当するコンポーネントの props で値を使用できる(router.js, PhotoList.vue) 今回は pagination で使用した
+
+[VueRouter] 単純に VueRouter を使うと、ページが切り替わってもスクロールの位置が同じ高さになってしまう。これを回避するために、scrollBehavior を使う
+
+```js
+const router = new VueRouter({
+    mode: "history",
+    scrollBehavior() {
+        return { x: 0, y: 0 };
+    },
+    routes
+});
+```

@@ -56,6 +56,12 @@ const routes = [{
 // 元々はURL文字列内のハッシュの変化では画面遷移しないブラウザ仕様利用したもの
 const router = new VueRouter({
   mode: 'history',
+  scrollBehavior() {
+    return {
+      x: 0,
+      y: 0
+    };
+  },
   routes
 });
 
