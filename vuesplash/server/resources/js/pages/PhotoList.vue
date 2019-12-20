@@ -3,24 +3,37 @@
     <div class="grid">
       <Photo class="grid__item" v-for="photo in photos" :key="photo.id" :item="photo" />
     </div>
+    <Pagination :current-page="currentPage" :last-page="lastPage" />
   </div>
 </template>
 
 <script>
-import Photo from "../components/Photo";
-import { PHOTO } from "../util";
+import Pagination from "../components/Pagination.vue";
+import Photo from "../components/Photo.vue";
+import { PHOTO, CODE } from "../util";
 
 export default {
   components: {
+    Pagination,
     Photo
+  },
+  props: {
+    page: {
+      type: Number,
+      required: false,
+      default: 1
+    }
   },
   data() {
     return {
-      photos: []
+      photos: [],
+      currentPage: 0,
+      lastPage: 0
     };
   },
   methods: {
     async fetchPhotos() {
+      const limit = 6;
       const wait = sec =>
         new Promise(resolve => {
           setTimeout(resolve, sec * 1000);
@@ -28,7 +41,17 @@ export default {
 
       await wait(0.5);
 
-      this.photos = PHOTO;
+      // double -> int
+      this.lastPage = Math.floor(PHOTO.length / limit + 1);
+      this.currentPage = this.page;
+      this.photos = [];
+
+      const start = (this.currentPage - 1) * limit;
+      for (let i = start; i < start + limit; i++) {
+        if (i < PHOTO.length) {
+          this.photos.push(PHOTO[i]);
+        }
+      }
     }
   },
   watch: {

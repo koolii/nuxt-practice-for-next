@@ -12,7 +12,18 @@ Vue.use(VueRouter);
 
 const routes = [{
     path: '/',
-    component: PhotoList
+    component: PhotoList,
+    // propsとしてクエリパラメータのpageが渡される
+    props: route => {
+      const page = route.query.page;
+      console.log(`Query Parameter page: ${page}`);
+
+      return {
+        // [1-9]が1個
+        // [0-9]が0個以上
+        page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1
+      };
+    }
   },
   {
     path: '/500',

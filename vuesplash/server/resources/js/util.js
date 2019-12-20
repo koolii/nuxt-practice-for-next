@@ -19,30 +19,89 @@ export function getCookieValue(target) {
   return array[0].split('=')[1];
 }
 
-export const PHOTO = [{
-  id: 1,
-  url: 'https://pbs.twimg.com/media/D-rnILoU4AAzt2I.jpg',
-  owner: {
-    name: "t.kuriyama"
-  }
-}, {
-  id: 2,
-  url: 'https://img21.shop-pro.jp/PA01392/072/product/142396934.jpg?cmsp_timestamp=20190602000357',
-  owner: {
-    name: "t.kuriyama2"
-  }
-}, {
-  id: 3,
-  url: 'https://times.abema.tv/files/topics/7030217_ext_col_03_2.jpg',
-  owner: {
-    name: "t.kuriyama3"
-  }
-}];
-
-
 export const CODE = {
   OK: 200,
   CREATED: 201,
   UNPROCESSABLE_ENTITY: 422,
   INTERNAL_SERVER_ERROR: 500,
 };
+
+export const PHOTO = [{
+  id: 1,
+  url: 'https://pbs.twimg.com/media/D-rnILoU4AAzt2I.jpg',
+  owner: {
+    name: "koolii"
+  }
+}, {
+  id: 2,
+  url: 'https://img21.shop-pro.jp/PA01392/072/product/142396934.jpg?cmsp_timestamp=20190602000357',
+  owner: {
+    name: "koolii2"
+  }
+}, {
+  id: 3,
+  url: 'https://times.abema.tv/files/topics/7030217_ext_col_03_2.jpg',
+  owner: {
+    name: "koolii3"
+  }
+}, {
+  id: 4,
+  url: 'https://www.shonenjump.com/j/rensai/img/main_kimetsu.jpg',
+  owner: {
+    name: "koolii4"
+  }
+}, {
+  id: 5,
+  url: 'https://kimetsu.com/anime/assets/img/top/img_main_sp.jpg',
+  owner: {
+    name: "koolii5"
+  }
+}, {
+  id: 6,
+  url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4jzipW_XcLVXdhs_YXpqDTu-bYK3poUxbABvYPYJ7KTSTHK4Q&s',
+  owner: {
+    name: "koolii6"
+  }
+}, {
+  id: 7,
+  url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4q99V1_4IZ7Ct7XuVyhPrExhPL0J71nlhzoAm7IRDKwxKz3us&s',
+  owner: {
+    name: "koolii7"
+  }
+}, {
+  id: 8,
+  url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaO7Nzx2D7RryuWAVC5Vdl3UhqK0CB_gUXlQ4n9eBIqFouon9qw&s',
+  owner: {
+    name: "koolii8"
+  }
+}, {
+  id: 9,
+  url: 'https://times.abema.tv/files/topics/7030217_ext_col_03_2.jpg',
+  owner: {
+    name: "koolii9"
+  }
+}, {
+  id: 10,
+  url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsoAcN3nIUnGeGOJfD0oKWIV67awilNfhYna4WXr52NNR9dnuW&s',
+  owner: {
+    name: "koolii10"
+  }
+}, {
+  id: 11,
+  url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv7jEwbub3nvGprWydjIbyt1iCTOoz250rZqjKd5XGfnPMfDko4Q&s',
+  owner: {
+    name: "koolii11"
+  }
+}, {
+  id: 12,
+  url: 'http://phoenix-wind.com/common/img/OGP_60/character/kimetsu_sabito.jpg',
+  owner: {
+    name: "koolii12",
+  }
+}, {
+  id: 13,
+  url: 'http://phoenix-wind.com/common/img/OGP_60/character/kimetsu_sabito.jpg',
+  owner: {
+    name: "koolii12",
+  }
+}];
