@@ -1,7 +1,13 @@
 <template>
   <div class="photo-list">
     <div class="grid">
-      <Photo class="grid__item" v-for="photo in photos" :key="photo.id" :item="photo" />
+      <Photo
+        class="grid__item"
+        v-for="photo in photos"
+        :key="photo.id"
+        :item="photo"
+        @like="onLikeClick"
+      />
     </div>
     <Pagination :current-page="currentPage" :last-page="lastPage" />
   </div>
@@ -52,6 +58,36 @@ export default {
           this.photos.push(PHOTO[i]);
         }
       }
+    },
+    onLikeClick({ id, liked }) {
+      if (!this.$store.getters["auth/check"]) {
+        alert("You have to login for like this photo.");
+        return false;
+      }
+
+      if (liked) {
+        this.unlike(id);
+      } else {
+        this.like(id);
+      }
+    },
+    like(id) {
+      this.photos = this.photos.map(photo => {
+        if (+photo.id === +id) {
+          photo.likes_count += 1;
+          photo.liked_by_user = true;
+        }
+        return photo;
+      });
+    },
+    unlike(id) {
+      this.photos = this.photos.map(photo => {
+        if (+photo.id === +id) {
+          photo.likes_count -= 1;
+          photo.liked_by_user = false;
+        }
+        return photo;
+      });
     }
   },
   watch: {

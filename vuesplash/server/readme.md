@@ -155,3 +155,8 @@ const router = new VueRouter({
     routes
 });
 ```
+
+[Vuejs] 基本的な所だが、Vuejs で子要素の state を変更した場合は親からレンダリングをしてもらう必要があるから、this.\$emit()を使って促す。
+v-for とか使ってるやつはわかりやすい。(Photo.vue, PhotoList.vue)
+
+また、単独のコンポーネントを更新する場合は、this.\$set()を使って更新を仲介する(PhotoDetail.vue)
