@@ -41,6 +41,9 @@ export default {
 
 ### pages 以下に vue ファイルを作成すると自動的にルーティング(routs.js)を生成しマッピングしてくれる
 
+また、user 詳細画面などを表示する際に URL に userId が埋め込まれることがある。
+このような動的なパラメータによって作成されるページは \_(アンダースコア)をファイルのプレフィックスに付与することで作成することが出来る
+
 https://ja.nuxtjs.org/guide/routing/
 
 ```plain
@@ -48,6 +51,7 @@ pages/
 \ user/
  - index.vue
  - detail.vue
+ - _id.vue
 \- index.vue
 ```
 
@@ -68,6 +72,11 @@ router: {
       name: 'user-detail',
       path: '/user/detail',
       component: 'pages/user/detail.vue'
+    },
+    {
+      name: 'user-id',
+      path: '/user/:id',
+      component: 'pages/user/_id.vue'
     }
   ]
 }
