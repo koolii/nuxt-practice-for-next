@@ -20,7 +20,28 @@ $ npm run generate
 Nuxt は様々なパッケージが依存性などを解決しながらインストールしてくれるパッケージ・フレームワークになっていて、
 特定の処理を行うと自動的に裏側で設定などを追加してくれる
 
+### layouts は共通 View
+
+https://ja.nuxtjs.org/api/pages-layout
+
+`layouts/default.vue` というファイルが Nuxt でプロジェクトを作成した場合に基本的に自動生成されて
+ここは全ページで共通するヘッダー・フッター等をマークアップ出来る場所
+（または Vuetify を今回使用したので、自動的に生成されたかもしれない）
+
+また、ページ毎に違う layout を設定することができる
+使い方は下記のようにクラスを export する際に layout プロパティに使用したい layout コンポーネントを指定するだけ
+省略したときのデフォルトの設定が `layout: 'default'` の為、default.vue を記述するだけで基本的に反映される仕組み
+
+```js
+export default {
+  layout: 'blog'
+  // ...
+}
+```
+
 ### pages 以下に vue ファイルを作成すると自動的にルーティング(routs.js)を生成しマッピングしてくれる
+
+https://ja.nuxtjs.org/guide/routing/
 
 ```plain
 pages/
